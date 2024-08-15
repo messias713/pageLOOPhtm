@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Vídeo e Imagens em Loop</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        img {
+            width: 80%;
+            height: auto;
+            animation: infiniteImage 5s infinite;
+        }
+        @keyframes infiniteImage {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<h1>loop html infinito criar page html</h1>
+<body>
+    <h1>Vídeo em Loop</h1>
+    <iframe id="meuVideo" width="80%" height="300px" 
+        src="https://www.youtube.com/embed/b-_X-XezEC8?autoplay=1&mute=1&loop=1&playlist=b-_X-XezEC8" 
+        title="ABBA - I Have A Dream (from ABBA In Concert)" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+    </iframe>
+
+    <h2>Imagens em Loop</h2>
+    <img src="https://th.bing.com/th/id/OIP.1Mu2aaJbRXn3VN_M-h0nOgHaJQ?w=236&h=295&c=7&o=5&pid=1.20/800x400?text=Imagem+1" alt="Imagem 1">
+    <img src="https://th.bing.com/th/id/OIP.6Gjzca71tjf9J092zWy-gQHaJQ?w=236&h=295&c=7&o=5&pid=1.20/800x400?text=Imagem+2" alt="Imagem 2">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.Ayze7UPYawfNbEXoTuwI9wHaHa?w=236&h=236&c=7&o=5&pid=1.20/800x400?text=Imagem+3" alt="Imagem 3">
+
+    <h2>Palavras e Letras</h2>
+    <p id="palavras"></p>
+    <script>
+        const palavras = ["Olá", "Mundo", "HTML", "JavaScript", "Loop"];
+        let index = 0;
+        setInterval(() => {
+            document.getElementById("palavras").innerText = palavras[index];
+            index = (index + 1) % palavras.length;
+        }, 1000);
+    </script>
+
+    <h2>Links</h2>
+    <p>
+        <a href="https://www.example.com" target="_blank">Visite o Exemplo</a>
+    </p>
+    <pre>Criar imagem crua.<br><img src="https://via.placeholder.com/800x400?text=Imagem+3" alt="Imagem 3"></pre>
+</body>
+</html>
