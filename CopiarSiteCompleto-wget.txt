@@ -1,0 +1,24 @@
+como copiar um site completo no terminal linux com wget
+Copiando um Site Completo com wget
+Para copiar um site completo usando o wget no terminal Linux, você pode usar o seguinte comando:
+bash
+
+
+wget -r -k -E -p -np http://www.exemplo.com
+Explicação dos Parâmetros
+-r: Ativa o modo recursivo, permitindo que o wget baixe o site e todas as suas páginas vinculadas.
+-k: Converte os links para que eles funcionem localmente, permitindo que você navegue pelo site offline.
+-E: Adiciona a extensão .html aos arquivos que não têm uma extensão, facilitando a visualização no navegador.
+-p: Baixa todos os arquivos necessários para exibir a página corretamente, como imagens e folhas de estilo.
+-np: Impede que o wget suba para diretórios pai, garantindo que apenas o conteúdo do site especificado seja baixado.
+Exemplo Completo
+Se você quiser baixar o site https://psicografia23.blogspot.com, o comando seria:
+bash
+
+
+wget -r -k -E -p -np https://psicografia23.blogspot.com
+Considerações Finais
+Localização dos Arquivos: O wget criará uma estrutura de diretórios local que reflete a estrutura do site original.
+Restrições: Alguns sites podem ter restrições em seus arquivos robots.txt, que podem impedir o download completo. Para ignorar essas restrições, você pode adicionar a opção -e robots=off, mas use isso com responsabilidade.
+Uso em Segundo Plano: Se o download for grande, você pode usar -b para rodar o wget em segundo plano, permitindo que você continue usando o terminal.
+Com esses comandos, você poderá copiar sites completos para visualização offline de maneira eficiente!
