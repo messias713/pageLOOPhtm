@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload e Processamento de Arquivos</title>
+</head>
+<h1>Copiar o link gerado no input e abrir no tor</h1>
+<body>
+
+<h1>Upload e Processamento de Arquivos</h1>
+<p>Faça upload de arquivos e clique no botão para abrir e processar o conteúdo.</p>
+
+<input type="file" id="fileInput" accept=".html,.pdf,.svg,.txt" multiple>
+<button onclick="processFiles()">Processar Arquivos</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+<script>
+let scrapedData = [];
+
+function processFiles() {
+    const fileInput = document.getElementById('fileInput');
+    const files = fileInput.files;
+
+    if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const content = event.target.result;
+                const fileType = file.type;
+
+                // Abre uma nova janela e passa os dados raspados para a nova janela
+                const newWindow = window.open("", "", "width=800,height=600");
+                newWindow.scrapedData = []; // Inicializa a base de dados na nova janela
+
+                newWindow.document.write(`
+                    <h1>Conteúdo do Arquivo</h1>
+                    <input type="text" id="searchTerm" placeholder="Pesquisar no conteúdo">
+                    <button onclick="searchContent()">Pesquisar</button>
+                    <div id="contentArea"></div>
+                    <div id="searchResults"></div>
+                    <form id="scrapedDataForm" method="POST">
+                        <input type="hidden" name="scrapedData" id="scrapedDataInput">
+                        <button type="submit">Enviar Dados para o Servidor</button>
+                    </form>
+                `);
+
+                const contentArea = newWindow.document.getElementById('contentArea');
+
+                if (fileType === 'text/html') {
+                    // Se o arquivo for HTML, insere o conteúdo diretamente
+                    contentArea.innerHTML = content;
+                    scrapeHTMLContent(contentArea, newWindow.scrapedData);
+                } else if (fileType === 'application/pdf') {
+                    // Se o arquivo for PDF, usa PDF.js para extrair texto
+                    processPDF(file, newWindow);
+                } else if (fileType === 'image/svg+xml') {
+                    // Se o arquivo for SVG, insere o conteúdo diretamente
+                    contentArea.innerHTML = content;
+                } else if (fileType === 'text/plain') {
+                    // Se o arquivo for TXT, insere o conteúdo como texto
+                    contentArea.innerHTML = `<pre>${content}</pre>`;
+                    newWindow.scrapedData.push({ type: 'Texto', content: content });
+                } else {
+                    alert('Tipo de arquivo não suportado.');
+                }
+
+                // Preenche o input escondido com os dados raspados em JSON e envia o formulário
+                newWindow.document.getElementById('scrapedDataInput').value = JSON.stringify(newWindow.scrapedData);
+
+                // Adiciona a função de pesquisa
+                newWindow.searchContent = function() {
+                    const searchTerm = newWindow.document.getElementById('searchTerm').value.toLowerCase();
+                    const searchResults = newWindow.document.getElementById('searchResults');
+                    searchResults.innerHTML = '';
+
+                    const foundItems = newWindow.scrapedData.filter(item => item.content.toLowerCase().includes(searchTerm));
+                    if (foundItems.length > 0) {
+                        foundItems.forEach(item => {
+                            searchResults.innerHTML += `<p>${item.type}: ${item.content}</p>`;
+                        });
+                    } else {
+                        searchResults.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+                    }
+                };
+            };
+
+            // Lê o arquivo como texto ou ArrayBuffer para PDF
+            if (file.type === 'application/pdf') {
+                reader.readAsArrayBuffer(file);
+            } else {
+                reader.readAsText(file);
+            }
+        }
+    } else {
+        alert('Por favor, selecione pelo menos um arquivo.');
+    }
+}
+
+function scrapeHTMLContent(doc, dataStore) {
+    dataStore.length = 0; // Limpa a base de dados
+
+    // Extrai informações de login (usuário e senha)
+    const loginForm = doc.querySelector('form');
+    if (loginForm) {
+        const inputs = loginForm.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            dataStore.push({ type: 'Login', content: `Input name: ${input.name}, value: ${input.value}` });
+        });
+    }
+
+    // Extrai links internos
+    const links = doc.querySelectorAll('a[href]');
+    links.forEach(link => {
+        dataStore.push({ type: 'Link', content: `Link: ${link.href}, texto: ${link.textContent}` });
+    });
+
+    // Extrai títulos e cabeçalhos
+    const title = doc.querySelector('title');
+    const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const paragraphs = doc.querySelectorAll('p');
+
+    if (title) {
+        dataStore.push({ type: 'Título', content: title.textContent });
+    }
+    headings.forEach(heading => {
+        dataStore.push({ type: `Cabeçalho (${heading.tagName})`, content: heading.textContent });
+    });
+    paragraphs.forEach(paragraph => {
+        dataStore.push({ type: 'Parágrafo', content: paragraph.textContent });
+    });
+
+    // Extrai listas
+    const lists = doc.querySelectorAll('ul, ol');
+    lists.forEach(list => {
+        dataStore.push({ type: `Lista (${list.tagName})`, content: list.textContent });
+    });
+
+    // Extrai tabelas
+    const tables = doc.querySelectorAll('table');
+    tables.forEach(table => {
+        dataStore.push({ type: 'Tabela', content: table.textContent });
+    });
+
+    // Extrai imagens
+    const images = doc.querySelectorAll('img');
+    images.forEach(img => {
+        dataStore.push({ type: 'Imagem', content: `Imagem source: ${img.src}, alt: ${img.alt}` });
+    });
+}
+
+function processPDF(file, newWindow) {
+    const pdfData = new Uint8Array(file);
+    pdfjsLib.getDocument(pdfData).promise.then(function(pdf) {
+        pdf.getPage(1).then(function(page) {
+            const scale = 1.5;
+            const viewport = page.getViewport({ scale: scale });
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise.then(() => {
+                const dataURL = canvas.toDataURL();
+                newWindow.document.getElementById('contentArea').innerHTML = `<img src="${dataURL}" />`;
+            });
+
+            page.getTextContent().then(function(textContent) {
+                let text = '';
+                textContent.items.forEach(item => {
+                    text += item.str + ' ';
+                });
+                newWindow.scrapedData.push({ type: 'PDF Text', content: text });
+                console.log(`Texto extraído do PDF: ${text}`);
+            });
+        });
+    });
+}
+</script>
+
+</body>
+</html>
