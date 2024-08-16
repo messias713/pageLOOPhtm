@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criador de Links</title>
+</head>
+<body>
+
+<h1>Criador de Links</h1>
+<p>Insira uma URL abaixo e escolha uma opção para gerar um novo link:</p>
+
+<input type="text" id="urlInput" placeholder="https://exemplo.com">
+<br><br>
+<label for="suffixSelect">Escolha um sufixo:</label>
+<select id="suffixSelect">
+    <option value="index">/index</option>
+    <option value="base_dados">/base_dados</option>
+    <option value="login">/login</option>
+    <option value="aspx">/aspx</option>
+</select>
+<br><br>
+<button onclick="createLink()">Criar Link</button>
+
+<p id="output"></p>
+
+<script>
+function createLink() {
+    const baseUrl = document.getElementById('urlInput').value;
+    const suffix = document.getElementById('suffixSelect').value;
+    
+    if (baseUrl) {
+        // Verifica se o URL termina com '/' e adiciona o sufixo correspondente
+        const newLink = baseUrl.endsWith('/') ? baseUrl + suffix : baseUrl + '/' + suffix;
+        
+        // Exibe o link gerado
+        const output = document.getElementById('output');
+        output.innerHTML = `Novo Link: <a href="${newLink}" target="_blank">${newLink}</a>`;
+
+        // Abre o link em uma nova aba
+        window.open(newLink, '_blank');
+    } else {
+        alert('Por favor, insira uma URL válida.');
+    }
+}
+</script>
+
+</body>
+</html>
