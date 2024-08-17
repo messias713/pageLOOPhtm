@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação Dinâmica de Tags HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            min-height: 50px;
+        }
+        #codeOutput {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Criação Dinâmica de Tags HTML</h1>
+    <label for="tagName">Nome da Tag HTML:</label>
+    <select id="tagName">
+        <option value="div">div</option>
+        <option value="p">p</option>
+        <option value="h1">h1</option>
+        <option value="h2">h2</option>
+        <option value="ul">ul</option>
+        <option value="ol">ol</option>
+        <option value="li">li</option>
+        <option value="span">span</option>
+        <option value="a">a</option>
+        <option value="img">img</option>
+        <option value="table">table</option>
+        <option value="tr">tr</option>
+        <option value="td">td</option>
+        <option value="form">form</option>
+        <option value="input">input</option>
+        <option value="button">button</option>
+        <option value="details">details</option>
+        <option value="summary">summary</option>
+        <option value="section">section</option>
+        <option value="footer">footer</option>
+        <option value="header">header</option>
+        <option value="nav">nav</option>
+        <option value="article">article</option>
+        <option value="aside">aside</option>
+        <option value="main">main</option>
+        <option value="blockquote">blockquote</option>
+        <option value="cite">cite</option>
+        <option value="code">code</option>
+        <option value="em">em</option>
+        <option value="strong">strong</option>
+        <option value="mark">mark</option>
+        <option value="pre">pre</option>
+        <option value="q">q</option>
+        <option value="small">small</option>
+    </select>
+    <button id="createTagButton">Criar Tag</button>
+
+    <div id="output"></div>
+    <div id="codeOutput"></div>
+
+    <script>
+        document.getElementById('createTagButton').addEventListener('click', function() {
+            // Obter o nome da tag selecionado pelo usuário
+            const tagName = document.getElementById('tagName').value.trim();
+            let codeSnippet = `const newElement = document.createElement('${tagName}');\n`;
+
+            if (tagName) {
+                // Criar o elemento usando createElement
+                const newElement = document.createElement(tagName);
+
+                // Adicionar um texto ou exemplo ao elemento (opcional)
+                if (tagName === "img") {
+                    newElement.src = "https://via.placeholder.com/150";
+                    newElement.alt = "Imagem Exemplo";
+                    codeSnippet += "newElement.src = 'https://via.placeholder.com/150';\n";
+                    codeSnippet += "newElement.alt = 'Imagem Exemplo';\n";
+                } else if (tagName === "a") {
+                    newElement.href = "#";
+                    newElement.textContent = "Link de Exemplo";
+                    codeSnippet += "newElement.href = '#';\n";
+                    codeSnippet += "newElement.textContent = 'Link de Exemplo';\n";
+                } else if (tagName === "details") {
+                    const summary = document.createElement("summary");
+                    summary.textContent = "Detalhes";
+                    const content = document.createElement("p");
+                    content.textContent = "Conteúdo adicional visível ao expandir.";
+                    newElement.appendChild(summary);
+                    newElement.appendChild(content);
+
+                    codeSnippet += "const summary = document.createElement('summary');\n";
+                    codeSnippet += "summary.textContent = 'Detalhes';\n";
+                    codeSnippet += "const content = document.createElement('p');\n";
+                    codeSnippet += "content.textContent = 'Conteúdo adicional visível ao expandir.';\n";
+                    codeSnippet += "newElement.appendChild(summary);\n";
+                    codeSnippet += "newElement.appendChild(content);\n";
+                } else if (tagName === "blockquote") {
+                    newElement.textContent = "Aqui vai uma citação em blockquote.";
+                    codeSnippet += "newElement.textContent = 'Aqui vai uma citação em blockquote.';\n";
+                } else if (tagName === "cite") {
+                    newElement.textContent = "Citação de uma fonte.";
+                    codeSnippet += "newElement.textContent = 'Citação de uma fonte.';\n";
+                } else if (tagName === "code") {
+                    newElement.textContent = "Código: console.log('Olá Mundo');";
+                    codeSnippet += "newElement.textContent = \"Código: console.log('Olá Mundo');\";\n";
+                } else if (tagName === "em") {
+                    newElement.textContent = "Texto em itálico.";
+                    codeSnippet += "newElement.textContent = 'Texto em itálico.';\n";
+                } else if (tagName === "strong") {
+                    newElement.textContent = "Texto em negrito.";
+                    codeSnippet += "newElement.textContent = 'Texto em negrito.';\n";
+                } else if (tagName === "mark") {
+                    newElement.textContent = "Texto destacado.";
+                    codeSnippet += "newElement.textContent = 'Texto destacado.';\n";
+                } else if (tagName === "pre") {
+                    newElement.textContent = "Texto pré-formatado.";
+                    codeSnippet += "newElement.textContent = 'Texto pré-formatado.';\n";
+                } else if (tagName === "q") {
+                    newElement.textContent = "Citação curta.";
+                    codeSnippet += "newElement.textContent = 'Citação curta.';\n";
+                } else if (tagName === "small") {
+                    newElement.textContent = "Texto menor.";
+                    codeSnippet += "newElement.textContent = 'Texto menor.';\n";
+                } else if (tagName === "header") {
+                    newElement.textContent = "Cabeçalho da página.";
+                    codeSnippet += "newElement.textContent = 'Cabeçalho da página.';\n";
+                } else if (tagName === "nav") {
+                    newElement.textContent = "Navegação principal.";
+                    codeSnippet += "newElement.textContent = 'Navegação principal.';\n";
+                } else if (tagName === "article") {
+                    newElement.textContent = "Artigo de conteúdo.";
+                    codeSnippet += "newElement.textContent = 'Artigo de conteúdo.';\n";
+                } else if (tagName === "aside") {
+                    newElement.textContent = "Conteúdo relacionado.";
+                    codeSnippet += "newElement.textContent = 'Conteúdo relacionado.';\n";
+                } else if (tagName === "main") {
+                    newElement.textContent = "Conteúdo principal.";
+                    codeSnippet += "newElement.textContent = 'Conteúdo principal.';\n";
+                } else {
+                    newElement.textContent = `Você criou um elemento <${tagName}>!`;
+                    codeSnippet += `newElement.textContent = 'Você criou um elemento <${tagName}>!';\n`;
+                }
+
+                // Adicionar o novo elemento ao output
+                document.getElementById('output').appendChild(newElement);
+
+                // Exibir o código gerado
+                codeSnippet += "document.getElementById('output').appendChild(newElement);";
+                document.getElementById('codeOutput').textContent = codeSnippet;
+            } else {
+                alert('Por favor, selecione um nome de tag HTML válido.');
+            }
+        });
+    </script>
+
+</body>
+</html>
