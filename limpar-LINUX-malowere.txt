@@ -1,0 +1,63 @@
+
+Limpar pc linux
+
+
+1. Isolamento do Sistema
+Primeiramente, desconecte seu computador da internet para impedir que o invasor tenha mais acesso ao sistema.
+
+2. Verifique o Status das Pastas
+Vamos começar verificando se as pastas ainda existem e onde estão localizadas.
+
+Abra um terminal e use os seguintes comandos:
+
+bash
+Copiar código
+ls -l /home/seu_usuario/
+Substitua seu_usuario pelo nome do seu usuário. Isso deve mostrar as permissões, proprietário, e se as pastas estão presentes. Se as pastas foram movidas, use o comando find para localizá-las:
+
+bash
+Copiar código
+find /home/seu_usuario/ -name "nome_da_pasta"
+Substitua nome_da_pasta por Imagens, Documentos, Música, etc., e veja se consegue localizar onde estão as pastas.
+
+3. Recuperação das Pastas
+Se as pastas foram movidas ou renomeadas, você pode movê-las de volta ao local correto usando:
+
+bash
+Copiar código
+mv /caminho_atual/nome_da_pasta /home/seu_usuario/
+Substitua /caminho_atual/nome_da_pasta pelo caminho atual e o nome da pasta que você encontrou.
+
+4. Verifique Permissões e Propriedades
+Pode ser que as permissões das pastas tenham sido alteradas. Para redefinir as permissões e a propriedade das pastas para o seu usuário, use:
+
+bash
+Copiar código
+sudo chown -R seu_usuario:seu_usuario /home/seu_usuario/nome_da_pasta
+sudo chmod -R 755 /home/seu_usuario/nome_da_pasta
+Isso dará ao seu usuário o controle total das pastas novamente.
+
+5. Verificar e Remover Software Malicioso
+Para verificar se há software malicioso, você pode instalar e usar o rkhunter (Rootkit Hunter) e chkrootkit, que são ferramentas para detectar rootkits, backdoors e exploits locais.
+
+bash
+Copiar código
+sudo apt-get update
+sudo apt-get install rkhunter chkrootkit
+sudo rkhunter --checkall
+sudo chkrootkit
+Revise os relatórios gerados para ver se algo suspeito foi encontrado.
+
+6. Backup e Reinstalação
+Se você não conseguir recuperar o sistema ou continuar encontrando problemas, pode ser necessário fazer backup dos seus arquivos (que não foram comprometidos) para uma unidade externa e realizar uma reinstalação limpa do Ubuntu.
+
+Backup: Use um disco externo e a ferramenta rsync para copiar os arquivos importantes.
+
+bash
+Copiar código
+rsync -av /home/seu_usuario/ /caminho_do_disco_externo/
+Reinstalação: Baixe a imagem mais recente do Ubuntu e siga o processo de instalação, formatando o disco para garantir que o sistema anterior seja removido.
+
+7. Mudança de Senhas e Aumentar a Segurança
+Depois de restaurar o sistema, altere todas as suas senhas, incluindo as de contas online e de usuário do sistema. Considere ativar a autenticação em dois fatores onde for possível e revise as práticas de segurança, como manter o sistema e os softwares atualizados e utilizar firewalls e antivírus.
+
