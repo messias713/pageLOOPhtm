@@ -7,5 +7,5 @@ codigos sql injection
 \-pdf
 \-atas
 \-login
-<button><a href="https://google-admin.corp.google.com">LOGIN Google admin=admin?/123-user-?--q</a></button>
+<button><a href="https://google-admin.corp.google.com=admin?/123-user-?--q">LOGIN Google </a></button>
 <pre>
