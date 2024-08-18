@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"></meta>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+    <title>Menina namoro!</title>
+    <style>
+    h1 {
+        color: pink;
+        font-size: 30px;
+    }
+    pre {
+        color: white;
+        background-image: url(https://i.pinimg.com/originals/46/e7/40/46e7408dbf18c6224f032080fa3a34da.gif);
+    }
+    </style>
+</head>
+<body>
+
+    <h1>Eu sou a menina namoro.<br />Seja feliz por favor!</h1>
+    <pre>
+    <h1>A maria namoro vai dar-vos um verso!</h1>
+    A minha infância percorre,
+    a verdade de mim mesma,
+    sempre solta em realidade.
+    Que luz! Sentir esta felicidade,
+    entrando para o eterno mundo da mocidade!
+    
+    Aprendam a amar, a menina namoro em verdade:
+    </pre>
+    <div id="output"></div>
+    <script>
+        const newElement = document.createElement('img');
+        newElement.src = 'https://i.ytimg.com/vi/ahZNH1VbndU/maxresdefault.jpg';
+        newElement.alt = 'Imagem Exemplo';
+        newElement.style.width = '800px'; // Define a largura da imagem
+        newElement.style.height = '300px'; // Define a altura da imagem
+        document.getElementById('output').appendChild(newElement);
+    </script>
+
+    <div id="output1"></div>
+    <script>
+        const newIframe = document.createElement('iframe');
+        newIframe.src = 'https://www.youtube.com/embed/O3mhNBmIIlU';
+        newIframe.width = '800';
+        newIframe.height = '300';
+        newIframe.frameBorder = '0';
+        newIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        newIframe.allowFullscreen = true;
+        document.getElementById('output1').appendChild(newIframe);
+    </script>
+
+</body>
+</html>
