@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Esqueleto HTML</title>
+    <style>
+    h1{
+    Color:purple;
+    background-color:pink;
+    font-size:30px;
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #codeOutput {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<h1>Seja feliz por favor</h1>
+<body>
+
+    <h1>Gerador de Esqueleto Básico de HTML</h1>
+    <button id="generateButton">Gerar Esqueleto HTML</button>
+
+    <div id="codeOutput"></div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            // Esqueleto básico do HTML
+            const htmlSkeleton = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Título Aqui</title>
+</head>
+<body>
+
+    <h1>Olá, Mundo!</h1>
+    <p>Bem-vindo ao seu documento HTML básico.</p>
+
+</body>
+</html>`;
+
+            // Exibir o código no div #codeOutput
+            document.getElementById('codeOutput').textContent = htmlSkeleton;
+        });
+    </script>
+
+</body>
+</html>
